@@ -146,7 +146,7 @@ workflows:
 
       - test:
           requires:
-            - 2.20
+            - '2.20'
       
       - push:
           requires:
