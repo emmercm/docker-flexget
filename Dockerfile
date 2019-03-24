@@ -22,4 +22,6 @@ VOLUME ["/config"]
 
 EXPOSE 5050
 
-CMD ["dumb-init", "/entrypoint.sh"]
+ENTRYPOINT ["dumb-init", "/entrypoint.sh"]
+
+CMD ["flexget", "daemon", "start", "--autoreload-config"]

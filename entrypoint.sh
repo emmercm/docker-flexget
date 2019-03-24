@@ -10,4 +10,4 @@ if [[ ! -f /config/config.yml ]]; then
     cp /flexget.yml /config/config.yml
 fi
 
-flexget daemon start --autoreload-config
+exec "$@"
