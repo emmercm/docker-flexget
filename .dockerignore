@@ -9,6 +9,6 @@ README*
 Dockerfile
 
 # FlexGet
-config.yml
-db-config.sqlite
-flexget.log
+/config.yml
+/db-config.sqlite
+/flexget.log
