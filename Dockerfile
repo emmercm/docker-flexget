@@ -3,6 +3,7 @@ ARG BASE_IMAGE=emmercm/libtorrent:latest
 FROM ${BASE_IMAGE}
 
 ENV VERSION=2.0
+ENV PASSWORD=flexgetindocker
 
 COPY entrypoint.sh flexget.yml /
 
@@ -24,4 +25,4 @@ EXPOSE 5050
 
 ENTRYPOINT ["dumb-init", "/entrypoint.sh"]
 
-CMD ["flexget", "daemon", "start", "--autoreload-config"]
+CMD ["flexget", "--loglevel", "verbose", "daemon", "start", "--autoreload-config"]

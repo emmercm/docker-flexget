@@ -1,33 +1,41 @@
 web_server: yes
 
 schedules:
-  - tasks: '*'
+  - tasks: 'rss-*'
     interval:
       minutes: 5
+  - tasks: 'download-*'
+    interval:
+      minutes: 15
 
 templates:
-  # INPUTS - TEMPLATES TO BE USED IN OTHER TEMPLATES
+  global:
+    version_checker: yes
+
+  #######################
+  #                     #
+  #     LIST INPUTS     #
+  #                     #
+  #######################
 
   # Exponential backoff for failed entries
-  retry: &retry
+  _retry: &retry
     retry_failed:
       retry_time: 30 minutes
       retry_time_multiplier: 1.5
       max_retries: 100
 
   # Base configuration for output lists
-  output-list: &output-list
+  _output-list: &output-list
     priority: 1
     accept_all: yes
-
-  # INPUTS - TEMPLATES TO BE USED IN TASKS
 
   # Aggregate TV from input tasks
   output-list-tv:
     <<: *retry
     <<: *output-list
     list_add:
-      entry_list: tv
+      - entry_list: tv
   input-list-tv:
     entry_list: tv
 
@@ -36,27 +44,29 @@ templates:
     <<: *retry
     <<: *output-list
     list_add:
-      entry_list: movies
+      - entry_list: movies
   input-list-movies:
     entry_list: movies
 
-  # FILTER - TEMPLATES TO BE USED IN OTHER TEMPLATES
+  ########################
+  #                      #
+  #     LIST FILTERS     #
+  #                      #
+  ########################
 
   # Convert magnet links to torrent files
-  convert-magnet: &convert-magnet
+  _convert-magnet: &convert-magnet
     convert_magnet:
       timeout: 60 seconds
 
   # Reject entries containing archive files
-  reject-archives: &reject-archives
+  _reject-archives: &reject-archives
     <<: *convert-magnet
     magnets: no
     content_filter:
       reject:
         - '*.rar'
         - '*.zip'
-
-  # FILTER - TEMPLATES TO BE USED IN TASKS
 
   tv:
     <<: *reject-archives
@@ -69,6 +79,12 @@ templates:
       target: 1080p webdl+ h264
       propers: yes
 
+  #########################
+  #                       #
+  #     FINAL OUTPUTS     #
+  #                       #
+  #########################
+
   qbittorrent:
     qbittorrent:
       host: localhost
@@ -78,27 +94,29 @@ templates:
       label: flexget
 
 tasks:
-  # TV - FETCH INPUTS TO LIST
+  ##################
+  #                #
+  #     INPUTS     #
+  #                #
+  ##################
 
   rss-tv-eztv:
-    templates:
+    template:
       - output-list-tv
     rss: https://eztv.io/ezrss.xml
 
   rss-tv-rarbg:
-    templates:
+    template:
       - output-list-tv
     rss: https://rarbg.to/rssdd.php?category=2;18;41;49
 
   rss-tv-limetorrents:
-    templates:
+    template:
       - output-list-tv
     rss: https://www.limetorrents.info/rss/20/
 
-  # MOVIES - FETCH INPUTS TO LIST
-
   rss-movies-rarbg:
-    templates:
+    template:
       - output-list-movies
     rss: https://rarbg.to/rssdd.php?category=movies
     regexp:
@@ -106,49 +124,49 @@ tasks:
         - RARBG
 
   rss-movies-yify:
-    templates:
+    template:
       - output-list-movies
     rss: https://yts.ag/rss/0/all/all/0
 
   rss-movies-limetorrents:
-    templates:
+    template:
       - output-list-movies
     rss: https://www.limetorrents.info/rss/16/
 
-  # TV - FILTER LISTS
+  ###################
+  #                 #
+  #     OUTPUTS     #
+  #                 #
+  ###################
 
-  download-tv:
-    templates:
-      - input-list-tv
-      - tv
-    # TODO: SERIES PLUGIN AND TORRENT
-  
-  # MOVIES - FILTER LISTS
+  # download-tv:
+  #   template:
+  #     - input-list-tv
+  #     - tv
+  #   # TODO: SERIES PLUGIN AND TORRENT
 
-  download-movies-imdb-watchlist:
-    templates:
-      - input-list-movies
-      - movies
-      - qbittorrent
-    imdb_lookup: yes
-    require_field: imdb_id
-    crossmatch:
-      from:
-        - imdb_list:
-            login: ...
-            password: ...
-            list: watchlist
-      fields:
-        - imdb_id
-      action: accept
+  # download-movies-imdb-watchlist:
+  #   template:
+  #     - input-list-movies
+  #     - movies
+  #   imdb_lookup: yes
+  #   require_field: imdb_id
+  #   crossmatch:
+  #     from:
+  #       - imdb_list:
+  #           login: ...
+  #           password: ...
+  #           list: watchlist
+  #     fields:
+  #       - imdb_id
+  #     action: accept
 
-  download-movies-imdb:
-    templates:
-      - input-list-movies
-      - movies
-      - qbittorrent
-    imdb_lookup: yes
-    require_field: imdb_id
-    imdb:
-      min_score: 7.5
-      min_votes: 1000
+  # download-movies-imdb:
+  #   template:
+  #     - input-list-movies
+  #     - movies
+  #   imdb_lookup: yes
+  #   require_field: imdb_id
+  #   imdb:
+  #     min_score: 7.5
+  #     min_votes: 1000
