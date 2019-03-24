@@ -1,3 +1,5 @@
+[![](https://raw.githubusercontent.com/emmercm/docker-flexget/assets/flexget.png)](https://flexget.com/)
+
 [![](https://badgen.net/badge/emmercm/flexget/blue?icon=docker)](https://hub.docker.com/r/emmercm/flexget)
 [![](https://badgen.net/docker/pulls/emmercm/flexget?icon=docker)](https://hub.docker.com/r/emmercm/flexget)
 

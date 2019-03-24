@@ -151,13 +151,13 @@ workflows:
       - push:
           requires:
             - test
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master
 
       - update-description:
           requires:
             - push
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master
