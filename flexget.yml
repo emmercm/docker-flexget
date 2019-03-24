@@ -1,0 +1,172 @@
+web_server: yes
+
+schedules:
+  - tasks: 'rss-*'
+    interval:
+      minutes: 5
+  - tasks: 'download-*'
+    interval:
+      minutes: 15
+
+templates:
+  global:
+    version_checker: yes
+
+  #######################
+  #                     #
+  #     LIST INPUTS     #
+  #                     #
+  #######################
+
+  # Exponential backoff for failed entries
+  _retry: &retry
+    retry_failed:
+      retry_time: 30 minutes
+      retry_time_multiplier: 1.5
+      max_retries: 100
+
+  # Base configuration for output lists
+  _output-list: &output-list
+    priority: 1
+    accept_all: yes
+
+  # Aggregate TV from input tasks
+  output-list-tv:
+    <<: *retry
+    <<: *output-list
+    list_add:
+      - entry_list: tv
+  input-list-tv:
+    entry_list: tv
+
+  # Aggregate movies from input tasks
+  output-list-movies:
+    <<: *retry
+    <<: *output-list
+    list_add:
+      - entry_list: movies
+  input-list-movies:
+    entry_list: movies
+
+  ########################
+  #                      #
+  #     LIST FILTERS     #
+  #                      #
+  ########################
+
+  # Convert magnet links to torrent files
+  _convert-magnet: &convert-magnet
+    convert_magnet:
+      timeout: 60 seconds
+
+  # Reject entries containing archive files
+  _reject-archives: &reject-archives
+    <<: *convert-magnet
+    magnets: no
+    content_filter:
+      reject:
+        - '*.rar'
+        - '*.zip'
+
+  tv:
+    <<: *reject-archives
+    quality: 480p webrip+ h264
+
+  movies:
+    <<: *reject-archives
+    quality: 1080p webdl+ h264
+    upgrade:
+      target: 1080p webdl+ h264
+      propers: yes
+
+  #########################
+  #                       #
+  #     FINAL OUTPUTS     #
+  #                       #
+  #########################
+
+  qbittorrent:
+    qbittorrent:
+      host: localhost
+      port: 8080
+      username: admin
+      password: adminadmin
+      label: flexget
+
+tasks:
+  ##################
+  #                #
+  #     INPUTS     #
+  #                #
+  ##################
+
+  rss-tv-eztv:
+    template:
+      - output-list-tv
+    rss: https://eztv.io/ezrss.xml
+
+  rss-tv-rarbg:
+    template:
+      - output-list-tv
+    rss: https://rarbg.to/rssdd.php?category=2;18;41;49
+
+  rss-tv-limetorrents:
+    template:
+      - output-list-tv
+    rss: https://www.limetorrents.info/rss/20/
+
+  rss-movies-rarbg:
+    template:
+      - output-list-movies
+    rss: https://rarbg.to/rssdd.php?category=movies
+    regexp:
+      reject_excluding:
+        - RARBG
+
+  rss-movies-yify:
+    template:
+      - output-list-movies
+    rss: https://yts.ag/rss/0/all/all/0
+
+  rss-movies-limetorrents:
+    template:
+      - output-list-movies
+    rss: https://www.limetorrents.info/rss/16/
+
+  ###################
+  #                 #
+  #     OUTPUTS     #
+  #                 #
+  ###################
+
+  # download-tv:
+  #   template:
+  #     - input-list-tv
+  #     - tv
+  #   # TODO: SERIES PLUGIN AND TORRENT
+
+  # download-movies-imdb-watchlist:
+  #   template:
+  #     - input-list-movies
+  #     - movies
+  #   imdb_lookup: yes
+  #   require_field: imdb_id
+  #   crossmatch:
+  #     from:
+  #       - imdb_list:
+  #           login: ...
+  #           password: ...
+  #           list: watchlist
+  #     fields:
+  #       - imdb_id
+  #     action: accept
+
+  # download-movies-imdb:
+  #   template:
+  #     - input-list-movies
+  #     - movies
+  #   imdb_lookup: yes
+  #   require_field: imdb_id
+  #   imdb:
+  #     min_score: 7.5
+  #     min_votes: 1000
