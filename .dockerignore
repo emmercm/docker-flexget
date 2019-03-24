@@ -1,0 +1,14 @@
+# Repo strucutre
+.circleci/
+.git/
+LICENSE*
+README*
+
+# Docker files
+.dockerignore
+Dockerfile
+
+# FlexGet
+config.yml
+db-config.sqlite
+flexget.log
