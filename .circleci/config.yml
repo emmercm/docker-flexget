@@ -139,7 +139,7 @@ workflows:
     jobs:
       # https://flexget.com/ChangeLog
       - build:
-          name: 2.20
+          name: '2.20'
           base_image: emmercm/libtorrent:1.1-alpine
           version: 2.20.*
           tags: 2.20 2.20-alpine 2 2-alpine latest
