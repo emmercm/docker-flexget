@@ -11,7 +11,7 @@ RUN set -euo pipefail && \
     # Install FlexGet and all dependencies
     apk --update add --no-cache python3 && \
     pip3 install --upgrade pip && \
-    pip3 install flexget==${VERSION} && \
+    pip3 install flexget~=${VERSION} && \
     # Make directories, and symlink them for quality of life
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \

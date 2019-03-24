@@ -3,7 +3,7 @@ set -euo pipefail
 
 
 # Keep FlexGet updated
-pip3 install --upgrade flexget==${VERSION}
+pip3 install --upgrade flexget~=${VERSION}
 
 # Default FlexGet config
 if [[ ! -f /config/config.yml ]]; then
