@@ -1,5 +1,2 @@
-# FlexGet
-/.config-lock
-/config.yml
-/db-config.sqlite
-/flexget.log
+# Attached folders
+config/
