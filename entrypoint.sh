@@ -8,7 +8,7 @@ if [[ -f /config/.config-lock ]]; then
 fi
 
 # Keep FlexGet updated
-pip3 install --upgrade flexget~=${VERSION}
+pip3 install --upgrade --quiet flexget~=${VERSION}
 
 # Default FlexGet config
 if [[ ! -f /config/config.yml ]]; then

@@ -25,4 +25,4 @@ EXPOSE 5050
 
 ENTRYPOINT ["dumb-init", "/entrypoint.sh"]
 
-CMD ["flexget", "--loglevel", "verbose", "daemon", "start", "--autoreload-config"]
+CMD ["flexget", "--loglevel", "info", "daemon", "start", "--autoreload-config"]
