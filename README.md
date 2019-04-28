@@ -45,7 +45,7 @@ Usage:
 
 ```bash
 $ docker run \
-    --volume "./config:/config" \
+    --volume "$PWD/config:/config" \
     emmercm/flexget
 ```
 
@@ -60,6 +60,10 @@ $ docker run \
     --publish 5050:5050
     emmercm/flexget
 ```
+
+## Environment Variables
+
+`TZ` is exposed as an environemnt variable to configure `tzdata`, the default is set to `Etc/UTC`. The full list of available options can be found on [Wikipedia](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
 # Image variants
 

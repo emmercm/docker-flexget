@@ -4,6 +4,7 @@ FROM ${BASE_IMAGE}
 
 ENV VERSION=2.0
 ENV PASSWORD=flexgetindocker
+ENV TZ=Etc/UTC
 
 COPY entrypoint.sh flexget.yml /
 
@@ -16,8 +17,8 @@ RUN set -euo pipefail && \
     # Make directories, and symlink them for quality of life
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \
-    # Install entrypoint dependencies
-    apk --update add --no-cache dumb-init
+    # Install container and entrypoint dependencies
+    apk --update add --no-cache dumb-init tzdata
 
 VOLUME ["/config"]
 
