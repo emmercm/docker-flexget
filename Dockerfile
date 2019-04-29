@@ -16,8 +16,8 @@ RUN set -euo pipefail && \
     # Make directories, and symlink them for quality of life
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \
-    # Install entrypoint dependencies
-    apk --update add --no-cache dumb-init
+    # Install container and entrypoint dependencies
+    apk --update add --no-cache dumb-init tzdata
 
 VOLUME ["/config"]
 
