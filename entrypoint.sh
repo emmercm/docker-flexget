@@ -8,6 +8,7 @@ if [[ -f /config/.config-lock ]]; then
 fi
 
 # Keep FlexGet updated
+echo "Checking for FlexGet updates ..."
 pip3 install --upgrade --quiet flexget~=${VERSION}
 
 # Default FlexGet config
