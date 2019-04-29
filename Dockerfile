@@ -4,7 +4,6 @@ FROM ${BASE_IMAGE}
 
 ENV VERSION=2.0
 ENV PASSWORD=flexgetindocker
-ENV TZ=Etc/UTC
 
 COPY entrypoint.sh flexget.yml /
 
