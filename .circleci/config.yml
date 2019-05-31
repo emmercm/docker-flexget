@@ -137,6 +137,10 @@ workflows:
     jobs:
       # https://flexget.com/ChangeLog
       - build:
+          name: "2.21"
+          version: 2.21.0
+          tags: 2.21 2.21-alpine 2 2-alpine latest
+      - build:
           name: "2.20"
           version: 2.20.0
           tags: 2.20 2.20-alpine
@@ -159,11 +163,11 @@ workflows:
 
       - test:
           requires:
+            - "2.21"
             - "2.20"
             - "2.19"
             - "2.18"
             - "2.17"
-            - "2.16"
       
       - push:
           requires:
