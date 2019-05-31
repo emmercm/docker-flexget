@@ -32,7 +32,7 @@ FlexGet is released under the [MIT License](https://github.com/Flexget/Flexget/b
 The images do not require any external Docker networks, volumes, environment variables, or arguments and can be run with just:
 
 ```bash
-$ docker run emmercm/flexget
+docker run emmercm/flexget
 ```
 
 But it is highly encouraged to mount the `/config` volume.
@@ -44,7 +44,7 @@ Due to the ephemeral nature of Docker containers these images provide a volume m
 Usage:
 
 ```bash
-$ docker run \
+docker run \
     --volume "$PWD/config:/config" \
     emmercm/flexget
 ```
@@ -56,7 +56,7 @@ FlexGet has a web UI that can be accessed at [http://localhost:5050](http://loca
 Usage:
 
 ```bash
-$ docker run \
+docker run \
     --publish 5050:5050
     emmercm/flexget
 ```
