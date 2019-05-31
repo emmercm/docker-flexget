@@ -12,16 +12,13 @@ executors:
 jobs:
   build:
     parameters:
-      base_image:
-        type: string
       version:
         type: string
       tags:
         type: string
-        default: ''
+        default: ""
     executor: docker
     environment:
-      BASE_IMAGE: << parameters.base_image >>
       VERSION: << parameters.version >>
       TAGS: << parameters.tags >>
       <<: *environment
@@ -40,16 +37,16 @@ jobs:
           command: |
             for TAR in $(ls -1 /cache/*.tar); do
               docker load --input "${TAR}"
+              rm "${TAR}"
             done
       - run:
           name: Build Docker Image
           command: |
             docker build \
               --cache-from=${REPO_NAME}:${VERSION} \
-              --build-arg BASE_IMAGE=${BASE_IMAGE} \
               --build-arg VERSION=${VERSION} \
               --tag ${REPO_NAME}:${VERSION} \
-              --tag ${REPO_NAME}:${VERSION}-${BASE_IMAGE##*-} .
+              --tag ${REPO_NAME}:${VERSION}-alpine .
             for TAG in ${TAGS}; do
               docker tag ${REPO_NAME}:${VERSION} ${REPO_NAME}:${TAG}
             done
@@ -102,7 +99,7 @@ jobs:
           name: Update MicroBadger
           command: |
             apk add --no-cache curl
-            curl --request POST https://hooks.microbadger.com/images/emmercm/flexget/_y3LNfT6rj2DI7BRG71-t5SFvBo=
+            curl --request POST "${MICROBADGER_WEBHOOK}"
 
   update-description:
     executor: docker
@@ -139,38 +136,38 @@ workflows:
     jobs:
       # https://flexget.com/ChangeLog
       - build:
-          name: '2.20'
+          name: "2.20"
           base_image: emmercm/libtorrent:1.1-alpine
           version: 2.20.0
           tags: 2.20 2.20-alpine 2 2-alpine latest
       - build:
-          name: '2.19'
+          name: "2.19"
           base_image: emmercm/libtorrent:1.1-alpine
           version: 2.19.0
           tags: 2.19 2.19-alpine
       - build:
-          name: '2.18'
+          name: "2.18"
           base_image: emmercm/libtorrent:1.1-alpine
           version: 2.18.0
           tags: 2.18 2.18-alpine
       - build:
-          name: '2.17'
+          name: "2.17"
           base_image: emmercm/libtorrent:1.1-alpine
           version: 2.17.0
           tags: 2.17 2.17-alpine
       - build:
-          name: '2.16'
+          name: "2.16"
           base_image: emmercm/libtorrent:1.1-alpine
           version: 2.16.0
           tags: 2.16 2.16-alpine
 
       - test:
           requires:
-            - '2.20'
-            - '2.19'
-            - '2.18'
-            - '2.17'
-            - '2.16'
+            - "2.20"
+            - "2.19"
+            - "2.18"
+            - "2.17"
+            - "2.16"
       
       - push:
           requires:
