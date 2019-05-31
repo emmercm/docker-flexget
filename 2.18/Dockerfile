@@ -1,8 +1,6 @@
-ARG BASE_IMAGE=emmercm/libtorrent:latest
+FROM emmercm/libtorrent:1.1.13
 
-FROM ${BASE_IMAGE}
-
-ENV VERSION=2.0
+ENV VERSION=2.18.0
 ENV PASSWORD=flexgetindocker
 
 COPY entrypoint.sh flexget.yml /
