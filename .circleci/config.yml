@@ -156,10 +156,6 @@ workflows:
           name: "2.17"
           version: 2.17.0
           tags: 2.17 2.17-alpine
-      - build:
-          name: "2.16"
-          version: 2.16.0
-          tags: 2.16 2.16-alpine
 
       - test:
           requires:
