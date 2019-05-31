@@ -1,4 +1,4 @@
-FROM emmercm/libtorrent:1.1.13
+FROM emmercm/libtorrent:1.1.13@sha256:43824cf3619dc5ac2db7dd9340c7bc5a436e40fca06b2dae6f8a05a1e2b6bdc6
 
 ENV VERSION=2.20.0
 ENV PASSWORD=flexgetindocker
