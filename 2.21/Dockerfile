@@ -1,6 +1,6 @@
 FROM emmercm/libtorrent:1.1.13
 
-ENV VERSION=2.16.0
+ENV VERSION=2.21.0
 ENV PASSWORD=flexgetindocker
 
 COPY entrypoint.sh flexget.yml /
