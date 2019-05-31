@@ -139,10 +139,15 @@ workflows:
     jobs:
       # https://flexget.com/ChangeLog
       - build:
+          name: '2.21'
+          base_image: emmercm/libtorrent:1.1-alpine
+          version: 2.21.0
+          tags: 2.21 2.21-alpine 2 2-alpine latest
+      - build:
           name: '2.20'
           base_image: emmercm/libtorrent:1.1-alpine
           version: 2.20.0
-          tags: 2.20 2.20-alpine 2 2-alpine latest
+          tags: 2.20 2.20-alpine
       - build:
           name: '2.19'
           base_image: emmercm/libtorrent:1.1-alpine
@@ -158,19 +163,14 @@ workflows:
           base_image: emmercm/libtorrent:1.1-alpine
           version: 2.17.0
           tags: 2.17 2.17-alpine
-      - build:
-          name: '2.16'
-          base_image: emmercm/libtorrent:1.1-alpine
-          version: 2.16.0
-          tags: 2.16 2.16-alpine
 
       - test:
           requires:
+            - '2.21'
             - '2.20'
             - '2.19'
             - '2.18'
             - '2.17'
-            - '2.16'
       
       - push:
           requires:
