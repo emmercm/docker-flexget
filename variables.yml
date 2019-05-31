@@ -1,0 +1,99 @@
+tv:
+  inputs:
+    - rss: https://eztv.io/ezrss.xml
+    - rss: https://rarbg.to/rssdd.php?category=tv
+    - rss: https://www.limetorrents.info/rss/20/
+  series:
+    settings:
+      720p:
+        quality: 720p webrip+ h264
+    720p:
+      - Black Mirror (2011)
+      - Chernobyl (2019)
+      - Fear the Walking Dead (2015)
+      - Game of Thrones (2011)
+      - The Grand Tour (2016)
+      - The Sinner (2017)
+      - The Walking Dead (2010)
+      - Top Gear (2002)
+      - Westworld (2016)
+  quality: 480p webrip+ h264
+  regexp:
+    # https://flexget.com/Plugins/regexp
+    from: title
+    reject_excluding:
+      - .*
+
+movies:
+  inputs:
+    - rss: https://rarbg.to/rssdd.php?category=movies
+    - rss: https://yts.am/rss/0/all/all/0
+    - rss: https://www.limetorrents.info/rss/16/
+  quality: 1080p webdl+ h264 aac
+  discover:
+    # https://flexget.com/Plugins/discover
+    # https://flexget.com/Searches
+    release_estimations: loose
+    what:
+      - movie_list: trakt-movies
+    from:
+      - rarbg:
+          category: [14, 48, 17, 44, 45, 47, 50, 51, 52]
+  regexp:
+    # https://flexget.com/Plugins/regexp
+    from: title
+    reject_excluding:
+      - (RARBG|YTS)
+
+# Used to fetch movie and TV watchlist(s):
+trakt:
+  # https://flexget.com/Trakt_Authentication
+  account: emmercm
+  lists:
+    movies: watchlist
+    shows: watchlist
+
+imdb:
+  # Used to fetch movie watchlist:
+  email: uhoh.twinkie@gmail.com
+  pass: WkxtkZc28PVABAakXcX4Dix48eRWKBe7
+  list: watchlist
+
+  # Used to download matching movies:
+  filter:
+    # https://flexget.com/Plugins/imdb
+    accept_actors:
+      - nm2796745  # Adam DeVine
+      - nm1275259  # Alexandra Daddario
+      - nm0447695  # Anna Kendrick
+      - nm0206359  # Charlie Day
+      - nm0290556  # James Franco
+      - nm2225369  # Jennifer Lawrence
+      - nm0251986  # Jesse Eisenberg
+      - nm3091777  # Josh Brener (Nelson 'Big Head' Bighetti)
+      - nm0000242  # Mark Wahlberg
+      - nm0000115  # Nicolas Cage
+      - nm1374980  # Zac Efron
+      - nm0002071  # Will Ferrell
+    accept_directors:
+      - nm0005124  # John Lasseter
+      - nm0088955  # Neill Blomkamp
+      - nm0027572  # Wes Anderson
+      - nm0000631  # Ridley Scott
+      - nm0634240  # Christopher Nolan
+      - nm0000399  # David Fincher
+      - nm0000116  # James Cameron
+      - nm0000233  # Quentin Tarantino
+      - nm0923736  # Joss Whedon
+    accept_genres:
+      - Documentary
+
+torrent_client:
+  # https://flexget.com/Plugins#output
+  qbittorrent:
+    # https://flexget.com/Plugins/qbittorrent
+    host: localhost
+    port: 8080
+    username: admin
+    password: adminadmin
+    label: flexget

@@ -11,12 +11,23 @@ fi
 echo "Checking for FlexGet updates ..."
 pip3 install --upgrade --quiet flexget~=${VERSION}
 
-# Default FlexGet config
-if [[ ! -f /config/config.yml ]]; then
+# Default FlexGet configs
+# if [[ ! -f /config/config.yml ]]; then
     cp /flexget.yml /config/config.yml
-fi
+# fi
+# if [[ ! -f /config/variables.yml ]]; then
+    cp /variables.yml /config/variables.yml
+# fi
 
 # Set web UI password
-flexget web passwd ${PASSWORD}
+if [[ ! -z "${PASSWORD}" ]]; then
+    flexget web passwd "${PASSWORD}"
+fi
+
+flexget trakt auth emmercm
+flexget --loglevel verbose execute
+flexget entry-list all
+flexget entry-list list download
+flexget series list
 
 exec "$@"

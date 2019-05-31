@@ -1,22 +1,28 @@
 web_server: yes
 
 schedules:
-  - tasks: 'rss-*'
+  - tasks: '*'
     interval:
       minutes: 5
-  - tasks: 'download-*'
-    interval:
-      minutes: 15
+
+###########################################################################
 
 templates:
   global:
+    # Periodically check for FlexGet updates
     version_checker: yes
 
-  #######################
-  #                     #
-  #     LIST INPUTS     #
-  #                     #
-  #######################
+  # Disable "seen" to not care about or remember "seen" status
+  disable-seen:
+    disable:
+      - seen
+      - seen_info_hash
+
+  ######################
+  #                    #
+  #     ENTRY LISTS    #
+  #                    #
+  ######################
 
   # Exponential backoff for failed entries
   _retry: &retry
@@ -25,28 +31,84 @@ templates:
       retry_time_multiplier: 1.5
       max_retries: 100
 
-  # Base configuration for output lists
-  _output-list: &output-list
-    priority: 1
+  # Base configuration for output entry lists
+  _output-entry-list: &output-entry-list
     accept_all: yes
+
+  # Base configuration for input entry lists
+  _input-entry-list: &input-entry-list
+    seen: local
+    seen_info_hash: local
 
   # Aggregate TV from input tasks
   output-list-tv:
-    <<: *retry
-    <<: *output-list
+    <<: *retry-failed
+    <<: *output-entry-list
     list_add:
       - entry_list: tv
+  # Use aggregated TV as an input
   input-list-tv:
+    <<: *input-entry-list
     entry_list: tv
 
   # Aggregate movies from input tasks
   output-list-movies:
-    <<: *retry
-    <<: *output-list
+    <<: *retry-failed
+    <<: *output-entry-list
     list_add:
       - entry_list: movies
+  # Use aggregated movies as an input
   input-list-movies:
+    <<: *input-entry-list
     entry_list: movies
+
+  #########################
+  #                       #
+  #     MANAGED LISTS     #
+  #                       #
+  #########################
+
+  # Base configuration for managed lists output
+  _output-list-trakt: &output-list-trakt
+    accept_all: yes
+
+  # Aggregate movies from external watchlists
+  output-list-trakt-movies:
+    <<: *output-list-trakt
+    list_add:
+      - movie_list: trakt-movies
+  # Filter input with aggregated movie watchlist
+  filter-list-trakt-movies:
+    list_match:
+      from:
+        - movie_list: trakt-movies
+  # Use movie watchlist as a discover input
+  input-discover-list-trakt-movies:
+    <<: *input-entry-list
+    discover: '{? movies.discover ?}'
+  # Remove movies from internal watchlist
+  output-remove-list-trakt-movies:
+    list_remove:
+      - movie_list: trakt-movies
+      - trakt_list:
+          account: '{? trakt.account ?}'
+          list: '{? trakt.lists.movies ?}'
+          type: movies
+
+  # Aggregate TV from external watchlists
+  output-list-trakt-shows:
+    <<: *output-list-trakt
+    list_add:
+      - entry_list: trakt-shows
+  # Filter input with aggregated TV watchlist
+  filter-list-trakt-shows:
+    configure_series:
+      from:
+        entry_list: trakt-shows
+      settings:
+        quality: '{? tv.quality ?}'
+        upgrade: yes
+    series: '{? tv.series ?}'
 
   ########################
   #                      #
@@ -54,30 +116,23 @@ templates:
   #                      #
   ########################
 
-  # Convert magnet links to torrent files
-  _convert-magnet: &convert-magnet
-    convert_magnet:
-      timeout: 60 seconds
+  # Assume quality when it's missing in the entry title
+  _assume-quality: &assume-quality
+    assume_quality: 480p h264
 
-  # Reject entries containing archive files
-  _reject-archives: &reject-archives
-    <<: *convert-magnet
-    magnets: no
-    content_filter:
-      reject:
-        - '*.rar'
-        - '*.zip'
+  # Filter TV inputs
+  filter-shows:
+    <<: *assume-quality
+    regexp: '{? tv.regexp ?}'
 
-  tv:
-    <<: *reject-archives
-    quality: 480p webrip+ h264
-
-  movies:
-    <<: *reject-archives
-    quality: 1080p webdl+ h264
+  # Filter movies inputs
+  filter-movies:
+    <<: *assume-quality
+    quality: '{? movies.quality ?}'
     upgrade:
-      target: 1080p webdl+ h264
+      target: '{? movies.quality ?}'
       propers: yes
+    regexp: '{? movies.regexp ?}'
 
   #########################
   #                       #
@@ -85,13 +140,15 @@ templates:
   #                       #
   #########################
 
-  qbittorrent:
-    qbittorrent:
-      host: localhost
-      port: 8080
-      username: admin
-      password: adminadmin
-      label: flexget
+  # Output to torrent client
+  output-torrent: '{? torrent_client ?}'
+
+  # Output to the "download" list
+  output-download-list:
+    list_add:
+      - entry_list: download
+
+###########################################################################
 
 tasks:
   ##################
@@ -100,38 +157,97 @@ tasks:
   #                #
   ##################
 
-  rss-tv-eztv:
+  # Fetch TV RSS feeds
+  rss-tv:
+    priority: 10
     template:
       - output-list-tv
-    rss: https://eztv.io/ezrss.xml
+    inputs: '{? tv.inputs ?}'
 
-  rss-tv-rarbg:
-    template:
-      - output-list-tv
-    rss: https://rarbg.to/rssdd.php?category=2;18;41;49
-
-  rss-tv-limetorrents:
-    template:
-      - output-list-tv
-    rss: https://www.limetorrents.info/rss/20/
-
-  rss-movies-rarbg:
+  # Fetch movie RSS feeds
+  rss-movies:
+    priority: 10
     template:
       - output-list-movies
-    rss: https://rarbg.to/rssdd.php?category=movies
-    regexp:
-      reject_excluding:
-        - RARBG
+    inputs: '{? movies.inputs ?}'
 
-  rss-movies-yify:
-    template:
-      - output-list-movies
-    rss: https://yts.ag/rss/0/all/all/0
+  ########################
+  #                      #
+  #     MANAGE LISTS     #
+  #                      #
+  ########################
 
-  rss-movies-limetorrents:
+  # Convert Trakt.tv TV episodes to TV shows
+  manage-trakt-episodes-to-shows:
+    priority: 20
     template:
-      - output-list-movies
-    rss: https://www.limetorrents.info/rss/16/
+      - disable-seen
+    trakt_list:
+      account: '{? trakt.account ?}'
+      list: '{? trakt.lists.shows ?}'
+      type: episodes
+    accept_all: yes
+    set_series_begin: yes
+    list_remove:
+      - trakt_list:
+          account: '{? trakt.account ?}'
+          list: '{? trakt.lists.shows ?}'
+          type: episodes
+    list_add:
+      - trakt_list:
+          account: '{? trakt.account ?}'
+          list: '{? trakt.lists.shows ?}'
+          type: shows
+
+  # Move IMDB movie watchlist to Trakt.tv
+  list-imdb-watchlist:
+    priority: 20
+    template:
+      - disable-seen
+    imdb_list:
+      login: '{? imdb.email ?}'
+      password: '{? imdb.pass ?}'
+      list: '{? imdb.list ?}'
+    accept_all: yes
+    list_add:
+      - trakt_list:
+          account: '{? trakt.account ?}'
+          list: '{? trakt.lists.movies ?}'
+          type: movies
+    list_remove:
+      - imdb_list:
+          login: '{? imdb.email ?}'
+          password: '{? imdb.pass ?}'
+          list: '{? imdb.list ?}'
+
+  #######################
+  #                     #
+  #     LIST INPUTS     #
+  #                     #
+  #######################
+
+  # Fetch Trakt.tv movie watchlist
+  list-trakt-movie-watchlist:
+    priority: 30
+    template:
+      - disable-seen
+      - output-list-trakt-movies
+    trakt_list:
+      account: '{? trakt.account ?}'
+      list: '{? trakt.lists.movies ?}'
+      type: movies
+    require_field: movie_year
+
+  # Fetch Trakt.tv TV show watchlist
+  list-trakt-shows-watchlist:
+    priority: 30
+    template:
+      - disable-seen
+      - output-list-trakt-shows
+    trakt_list:
+      account: '{? trakt.account ?}'
+      list: '{? trakt.lists.shows ?}'
+      type: shows
 
   ###################
   #                 #
@@ -139,34 +255,44 @@ tasks:
   #                 #
   ###################
 
-  # download-tv:
-  #   template:
-  #     - input-list-tv
-  #     - tv
-  #   # TODO: SERIES PLUGIN AND TORRENT
+  # Download from TV inputs filtering by TV watchlist
+  download-tv-watchlist:
+    template:
+      - input-list-tv
+      - filter-shows
+      - filter-list-trakt-shows
+      - output-torrent
+      - output-download-list
 
-  # download-movies-imdb-watchlist:
-  #   template:
-  #     - input-list-movies
-  #     - movies
-  #   imdb_lookup: yes
-  #   require_field: imdb_id
-  #   crossmatch:
-  #     from:
-  #       - imdb_list:
-  #           login: ...
-  #           password: ...
-  #           list: watchlist
-  #     fields:
-  #       - imdb_id
-  #     action: accept
+  # Download from movie inputs filtering by movie watchlist
+  download-movies-watchlist:
+    template:
+      - input-list-movies
+      - filter-movies
+      - filter-list-trakt-movies
+      - output-torrent
+      - output-download-list
+      - output-remove-list-trakt-movies
 
-  # download-movies-imdb:
-  #   template:
-  #     - input-list-movies
-  #     - movies
-  #   imdb_lookup: yes
-  #   require_field: imdb_id
-  #   imdb:
-  #     min_score: 7.5
-  #     min_votes: 1000
+  # Download by searching for movies in watchlist
+  download-movies-watchlist-discover:
+    template:
+      - input-discover-list-trakt-movies
+      - filter-movies
+      - filter-list-trakt-movies
+      - output-torrent
+      - output-download-list
+      - output-remove-list-trakt-movies
+
+  # Download from movie inputs filtering by IMDB ratings
+  download-movies-imdb-ratings:
+    template:
+      - input-list-movies
+      - filter-movies
+      - output-torrent
+      - output-download-list
+      - output-remove-list-trakt-movies
+    # Note: can't be done as an entry list task because it's a filter plugin
+    imdb_lookup: yes
+    require_field: imdb_id
+    imdb: '{? imdb.filter ?}'

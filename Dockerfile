@@ -5,7 +5,7 @@ FROM ${BASE_IMAGE}
 ENV VERSION=2.0
 ENV PASSWORD=flexgetindocker
 
-COPY entrypoint.sh flexget.yml /
+COPY entrypoint.sh flexget.yml variables.yml /
 
 # Install FlexGet
 RUN set -euo pipefail && \
