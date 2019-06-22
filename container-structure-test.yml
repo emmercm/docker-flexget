@@ -21,7 +21,6 @@ commandTests:
   - name: "flexget --version"
     command: "./entrypoint.sh"
     args: ["flexget", "--version"]
-    expectedOutput: ["You are on the latest release."]
     exitCode: 0
 
   - name: "flexget check"
