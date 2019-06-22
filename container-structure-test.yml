@@ -18,12 +18,12 @@ commandTests:
     args: ["--version"]
     exitCode: 0
 
-  - name: "flexget --version"
+  - name: "./entrypoint.sh flexget --version"
     command: "./entrypoint.sh"
     args: ["flexget", "--version"]
     exitCode: 0
 
-  - name: "flexget check"
+  - name: "./entrypoint.sh flexget check"
     command: "./entrypoint.sh"
     args: ["flexget", "check"]
     exitCode: 0
