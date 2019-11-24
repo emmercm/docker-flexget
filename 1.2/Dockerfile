@@ -20,7 +20,7 @@ RUN set -euo pipefail && \
     # Install container and entrypoint dependencies
     apk --update add --no-cache dumb-init tzdata
 
-COPY entrypoint.sh /
+COPY entrypoint.sh flexget.yml /
 
 VOLUME ["/config"]
 
