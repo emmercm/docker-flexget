@@ -1,0 +1,3 @@
+tasks:
+  dummy:
+    rss: https://lorem-rss.herokuapp.com/feed
