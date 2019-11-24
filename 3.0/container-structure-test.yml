@@ -1,1 +1,29 @@
-../container-structure-test.yml
+schemaVersion: 2.0.0
+
+commandTests:
+  - name: "entrypoint.sh"
+    command: "./entrypoint.sh"
+    args: ["echo", "ok"]
+    expectedOutput: ["ok"]
+    exitCode: 0
+
+  - name: "which flexget"
+    command: "which"
+    args: ["flexget"]
+    expectedOutput: ["/usr/bin/flexget"]
+    exitCode: 0
+
+  - name: "flexget --version"
+    command: "flexget"
+    args: ["--version"]
+    exitCode: 0
+
+  - name: "./entrypoint.sh flexget --version"
+    command: "./entrypoint.sh"
+    args: ["flexget", "--version"]
+    exitCode: 0
+
+  - name: "./entrypoint.sh flexget check"
+    command: "./entrypoint.sh"
+    args: ["flexget", "check"]
+    exitCode: 0
