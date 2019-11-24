@@ -1,1 +1,12 @@
-../.dockerignore
+# Repo strucutre
+.circleci/
+.git/
+LICENSE*
+README*
+
+# Docker files
+.dockerignore
+Dockerfile
+
+# Attached folders
+config/

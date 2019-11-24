@@ -13,7 +13,7 @@ pip${PYTHON_VERSION/2/} install --upgrade --quiet pip
 pip${PYTHON_VERSION/2/} install --upgrade --quiet flexget~=${FLEXGET_VERSION}
 
 # Default FlexGet config
-if [[ ! -f /config/config.yml && -f /flexget.yml ]]; then
+if [[ ! -f /config/config.yml ]]; then
     cp /flexget.yml /config/config.yml
 fi
 
