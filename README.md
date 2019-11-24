@@ -13,11 +13,8 @@ FlexGet daemon with remote web interface.
 
 | Tags | Size / Layers |
 |-|-|
-| `2.21`, `2.21-alpine`, `2`, `2-alpine`, `latest` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:2.21.svg)](https://microbadger.com/images/emmercm/flexget:2.21 "Get your own image badge on microbadger.com") |
-| `2.20`, `2.20-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:2.20.svg)](https://microbadger.com/images/emmercm/flexget:2.20 "Get your own image badge on microbadger.com") |
-| `2.19`, `2.19-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:2.19.svg)](https://microbadger.com/images/emmercm/flexget:2.19 "Get your own image badge on microbadger.com") |
-| `2.18`, `2.18-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:2.18.svg)](https://microbadger.com/images/emmercm/flexget:2.18 "Get your own image badge on microbadger.com") |
-| `2.17`, `2.17-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:2.17.svg)](https://microbadger.com/images/emmercm/flexget:2.17 "Get your own image badge on microbadger.com") |
+| `3.0`, `3.0-alpine`, `3`, `3-alpine`, `latest` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:3.0.svg)](https://microbadger.com/images/emmercm/flexget:3.0 "Get your own image badge on microbadger.com") |
+| `2.21`, `2.21-alpine`, `2`, `2-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:2.21.svg)](https://microbadger.com/images/emmercm/flexget:2.21 "Get your own image badge on microbadger.com") |
 
 # What is FlexGet?
 
