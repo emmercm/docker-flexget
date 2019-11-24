@@ -15,6 +15,7 @@ FlexGet daemon with remote web interface.
 |-|-|
 | `3.0`, `3.0-alpine`, `3`, `3-alpine`, `latest` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:3.0.svg)](https://microbadger.com/images/emmercm/flexget:3.0 "Get your own image badge on microbadger.com") |
 | `2.21`, `2.21-alpine`, `2`, `2-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:2.21.svg)](https://microbadger.com/images/emmercm/flexget:2.21 "Get your own image badge on microbadger.com") |
+| `1.2`, `1.2-alpine`, `1`, `1-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:1.2.svg)](https://microbadger.com/images/emmercm/flexget:2.21 "Get your own image badge on microbadger.com") |
 
 # What is FlexGet?
 

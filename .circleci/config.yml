@@ -150,11 +150,16 @@ workflows:
           name: "2.21"
           version: 2.21.0
           tags: 2.21 2.21-alpine 2 2-alpine
+      - build:
+          name: "1.2"
+          version: 1.2.0
+          tags: 1.2 1.2-alpine 1 1-alpine
 
       - test:
           requires:
             - "3.0"
             - "2.21"
+            - "1.2"
       
       - push:
           requires:
