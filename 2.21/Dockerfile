@@ -16,7 +16,7 @@ RUN set -euo pipefail && \
     pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} && \
     # Fix Python 3.8+
     find /usr/lib/python3*/site-packages/flexget -type f -name "*" -print0 | xargs -0 sed -i 's/from future.moves import/import/g' && \
-    find /usr/lib/python3*/site-packages/flexget -type f -name "*" -print0 | xargs -0 sed -i 's/from future.moves.//g' && \
+    find /usr/lib/python3*/site-packages/flexget -type f -name "*" -print0 | xargs -0 sed -i 's/from future.moves./from /g' && \
     # Make directories, and symlink them for quality of life
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \
