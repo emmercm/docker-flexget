@@ -1,4 +1,4 @@
-FROM emmercm/libtorrent:1.1.13@sha256:be6124d25de60b245d0fdebcec838533b696d041955530b283d9a1101e6c51db
+FROM emmercm/libtorrent:1.1.13@sha256:869d85b6e539b429c3ffaeb5c159cc8fa717c36733e4f9442ce83e49c3cccd55
 
 ARG FLEXGET_VERSION=2.21.35
 ENV FLEXGET_VERSION=$FLEXGET_VERSION
@@ -14,6 +14,9 @@ RUN set -euo pipefail && \
     apk --update add --no-cache python3 && \
     pip${PYTHON_VERSION/2/} install --upgrade pip && \
     pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} && \
+    # Fix Python 3.8+
+    find /usr/lib/python3*/site-packages/flexget -type f -name "*" -print0 | xargs -0 sed -i 's/from future.moves import/import/g' && \
+    find /usr/lib/python3*/site-packages/flexget -type f -name "*" -print0 | xargs -0 sed -i 's/from future.moves./from /g' && \
     # Make directories, and symlink them for quality of life
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \
