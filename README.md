@@ -1,10 +1,10 @@
 [![](https://raw.githubusercontent.com/emmercm/docker-flexget/assets/flexget.png)](https://flexget.com/)
 
 [![](https://badgen.net/badge/emmercm/flexget/blue?icon=docker)](https://hub.docker.com/r/emmercm/flexget)
-[![](https://badgen.net/docker/pulls/emmercm/flexget?icon=docker)](https://hub.docker.com/r/emmercm/flexget)
+[![](https://badgen.net/docker/pulls/emmercm/flexget?icon=docker&label=pulls)](https://hub.docker.com/r/emmercm/flexget)
+[![](https://badgen.net/docker/stars/emmercm/flexget?icon=docker&label=stars)](https://hub.docker.com/r/emmercm/flexget)
 
 [![](https://badgen.net/badge/emmercm/docker-flexget/purple?icon=github)](https://github.com/emmercm/docker-flexget)
-[![](https://badgen.net/circleci/github/emmercm/docker-flexget/master?icon=circleci)](https://github.com/emmercm/docker-flexget/blob/master/.circleci/config.yml)
 [![](https://badgen.net/github/license/emmercm/docker-flexget?color=grey)](https://github.com/emmercm/docker-flexget/blob/master/LICENSE)
 
 FlexGet daemon with remote web interface.
@@ -13,7 +13,7 @@ FlexGet daemon with remote web interface.
 
 | Tags | Size / Layers |
 |-|-|
-| `3.0`, `3.0-alpine`, `3`, `3-alpine`, `latest` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:3.0.svg)](https://microbadger.com/images/emmercm/flexget:3.0 "Get your own image badge on microbadger.com") |
+| `3.1`, `3.1-alpine`, `3`, `3-alpine`, `latest` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:3.1.svg)](https://microbadger.com/images/emmercm/flexget:3.1 "Get your own image badge on microbadger.com") |
 | `2.21`, `2.21-alpine`, `2`, `2-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:2.21.svg)](https://microbadger.com/images/emmercm/flexget:2.21 "Get your own image badge on microbadger.com") |
 | `1.2`, `1.2-alpine`, `1`, `1-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:1.2.svg)](https://microbadger.com/images/emmercm/flexget:2.21 "Get your own image badge on microbadger.com") |
 
