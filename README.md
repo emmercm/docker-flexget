@@ -1,10 +1,10 @@
 [![](https://raw.githubusercontent.com/emmercm/docker-flexget/assets/flexget.png)](https://flexget.com/)
 
 [![](https://badgen.net/badge/emmercm/flexget/blue?icon=docker)](https://hub.docker.com/r/emmercm/flexget)
-[![](https://badgen.net/docker/pulls/emmercm/flexget?icon=docker)](https://hub.docker.com/r/emmercm/flexget)
+[![](https://badgen.net/docker/pulls/emmercm/flexget?icon=docker&label=pulls)](https://hub.docker.com/r/emmercm/flexget)
+[![](https://badgen.net/docker/stars/emmercm/flexget?icon=docker&label=stars)](https://hub.docker.com/r/emmercm/flexget)
 
 [![](https://badgen.net/badge/emmercm/docker-flexget/purple?icon=github)](https://github.com/emmercm/docker-flexget)
-[![](https://badgen.net/circleci/github/emmercm/docker-flexget/master?icon=circleci)](https://github.com/emmercm/docker-flexget/blob/master/.circleci/config.yml)
 [![](https://badgen.net/github/license/emmercm/docker-flexget?color=grey)](https://github.com/emmercm/docker-flexget/blob/master/LICENSE)
 
 FlexGet daemon with remote web interface.
