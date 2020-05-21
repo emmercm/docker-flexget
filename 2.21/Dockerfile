@@ -21,7 +21,11 @@ RUN set -euo pipefail && \
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \
     # Install container and entrypoint dependencies
-    apk --update add --no-cache dumb-init tzdata
+    apk --update add --no-cache dumb-init tzdata && \
+    # Remove temp files
+    cd && \
+    apk del --purge build-dependencies && \
+    rm -rf /tmp/*
 
 COPY entrypoint.sh flexget.yml /
 

@@ -12,14 +12,19 @@ ENV FLEXGET_PASSWORD=flexgetindocker
 RUN set -euo pipefail && \
     # Install FlexGet and all dependencies
     #   https://pillow.readthedocs.io/en/stable/installation.html
-    apk --update add --no-cache python3 gcc jpeg-dev musl-dev python3-dev zlib-dev && \
+    apk --update add --no-cache                              python3 && \
+    apk --update add --no-cache --virtual build-dependencies gcc jpeg-dev musl-dev python3-dev zlib-dev && \
     pip${PYTHON_VERSION/2/} install --upgrade pip && \
     pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} && \
     # Make directories, and symlink them for quality of life
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \
     # Install container and entrypoint dependencies
-    apk --update add --no-cache dumb-init tzdata
+    apk --update add --no-cache dumb-init tzdata && \
+    # Remove temp files
+    cd && \
+    apk del --purge build-dependencies && \
+    rm -rf /tmp/*
 
 COPY entrypoint.sh flexget.yml /
 
