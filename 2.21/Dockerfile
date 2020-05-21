@@ -1,4 +1,4 @@
-FROM emmercm/libtorrent:1.1.13@sha256:869d85b6e539b429c3ffaeb5c159cc8fa717c36733e4f9442ce83e49c3cccd55
+FROM emmercm/libtorrent:1.1
 
 ARG FLEXGET_VERSION=2.21.35
 ENV FLEXGET_VERSION=$FLEXGET_VERSION
@@ -21,7 +21,10 @@ RUN set -euo pipefail && \
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \
     # Install container and entrypoint dependencies
-    apk --update add --no-cache dumb-init tzdata
+    apk --update add --no-cache dumb-init tzdata && \
+    # Remove temp files
+    cd && \
+    rm -rf /tmp/*
 
 COPY entrypoint.sh flexget.yml /
 

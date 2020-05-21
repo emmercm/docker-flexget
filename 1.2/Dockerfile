@@ -1,4 +1,4 @@
-FROM emmercm/libtorrent:1.1.13@sha256:869d85b6e539b429c3ffaeb5c159cc8fa717c36733e4f9442ce83e49c3cccd55
+FROM emmercm/libtorrent:1.1
 
 ARG FLEXGET_VERSION=1.2.521
 ENV FLEXGET_VERSION=$FLEXGET_VERSION
@@ -11,14 +11,19 @@ ENV FLEXGET_PASSWORD=flexgetindocker
 # Install FlexGet
 RUN set -euo pipefail && \
     # Install FlexGet and all dependencies
-    apk --update add --no-cache python2 py2-pip && \
+    apk --update add --no-cache                              python2 py2-pip && \
+    apk --update add --no-cache --virtual build-dependencies g++ gcc musl-dev python2-dev && \
     pip${PYTHON_VERSION/2/} install --upgrade pip && \
     pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} "Flask<0.11" "Flask-Cors<3.0" "Flask-Login<0.4" "guessit<3.0" "html5lib<0.99999999" "pytvmaze<2.0" && \
     # Make directories, and symlink them for quality of life
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \
     # Install container and entrypoint dependencies
-    apk --update add --no-cache dumb-init tzdata
+    apk --update add --no-cache dumb-init tzdata && \
+    # Remove temp files
+    cd && \
+    apk del --purge build-dependencies && \
+    rm -rf /tmp/*
 
 COPY entrypoint.sh flexget.yml /
 
