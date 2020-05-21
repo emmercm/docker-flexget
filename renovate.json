@@ -13,7 +13,7 @@
       },
       "separateMajorMinor": true,
       "minor": {
-        "enabled": false
+        "enabled": true
       },
       "separateMinorPatch": true,
       "patch": {
