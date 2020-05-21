@@ -24,7 +24,6 @@ RUN set -euo pipefail && \
     apk --update add --no-cache dumb-init tzdata && \
     # Remove temp files
     cd && \
-    apk del --purge build-dependencies && \
     rm -rf /tmp/*
 
 COPY entrypoint.sh flexget.yml /
