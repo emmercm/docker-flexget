@@ -8,10 +8,11 @@ ENV PYTHON_VERSION=$PYTHON_VERSION
 
 ENV FLEXGET_PASSWORD=flexgetindocker
 
+SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
+
 # Install FlexGet
-RUN set -euo pipefail && \
-    # Install FlexGet and all dependencies
-    apk --update add --no-cache                              python2 py2-pip && \
+# hadolint ignore=DL3003,DL3018,SC2169
+RUN apk --update add --no-cache                              python2 py2-pip && \
     apk --update add --no-cache --virtual build-dependencies g++ gcc musl-dev python2-dev && \
     pip${PYTHON_VERSION/2/} install --upgrade pip && \
     pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} "Flask<0.11" "Flask-Cors<3.0" "Flask-Login<0.4" "guessit<3.0" "html5lib<0.99999999" "pytvmaze<2.0" && \
