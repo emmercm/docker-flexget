@@ -8,10 +8,11 @@ ENV PYTHON_VERSION=$PYTHON_VERSION
 
 ENV FLEXGET_PASSWORD=flexgetindocker
 
+SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
+
 # Install FlexGet
-RUN set -euo pipefail && \
-    # Install FlexGet and all dependencies
-    apk --update add --no-cache python3 && \
+# hadolint ignore=DL3003,DL3018,SC2169
+RUN apk --update add --no-cache python3 && \
     pip${PYTHON_VERSION/2/} install --upgrade pip && \
     pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} && \
     # Fix Python 3.8+
