@@ -13,6 +13,6 @@ if [[ ! -f /config/config.yml ]]; then
 fi
 
 # Set web UI password
-flexget web passwd ${FLEXGET_PASSWORD}
+flexget web passwd "${FLEXGET_PASSWORD}"
 
 exec "$@"
