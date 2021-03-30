@@ -1,4 +1,4 @@
-FROM emmercm/libtorrent:1.1@sha256:8cbde9d377103014261c3de0dc87325eb00591949e1023e1db8c9454a73c09cf
+FROM emmercm/libtorrent:1.1@sha256:3f2f4b9d20a6ed2b0bb9af3474b5896c6ff2011a8ff6bde47726eb418c49a4dc
 
 ARG FLEXGET_VERSION=1.2.521
 ENV FLEXGET_VERSION=$FLEXGET_VERSION
@@ -15,7 +15,7 @@ SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 RUN apk --update add --no-cache                              python2 py2-pip && \
     apk --update add --no-cache --virtual build-dependencies g++ gcc musl-dev python2-dev && \
     pip${PYTHON_VERSION/2/} install --upgrade pip && \
-    pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} "Flask<0.11" "Flask-Cors<3.0" "Flask-Login<0.4" "guessit<3.0" "html5lib<0.99999999" "pytvmaze<2.0" "rebulk<3.0.0" "Werkzeug<1.0.0" && \
+    pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} "Flask<0.11" "Flask-Cors<3.0" "Flask-Login<0.4" "guessit<3.0" "html5lib<0.99999999" "pytvmaze<2.0" "rebulk<3.0.0" "SQLAlchemy<1.4.0" "Werkzeug<1.0.0" && \
     # Make directories, and symlink them for quality of life
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \
