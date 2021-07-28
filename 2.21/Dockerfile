@@ -1,4 +1,4 @@
-FROM emmercm/libtorrent:1.1@sha256:c320d63c943f723501f4a04e1d364b37548d6214e119181d082e59c232d5ff26
+FROM emmercm/libtorrent:1.1@sha256:4af08967e6cf5dabfebbe260c2848f7a3a81c19a9e6348b44ff77f1e84f37d9a
 
 ARG FLEXGET_VERSION=2.21.35
 ENV FLEXGET_VERSION=$FLEXGET_VERSION
@@ -13,7 +13,7 @@ SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 # Install FlexGet
 # hadolint ignore=DL3003,DL3018,SC2169
 RUN apk --update add --no-cache python3 && \
-    pip${PYTHON_VERSION/2/} install --upgrade pip && \
+    pip${PYTHON_VERSION/2/} install --upgrade pip "setuptools<46" && \
     pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} && \
     # Fix Python 3.8+
     find /usr/lib/python3*/site-packages/flexget -type f -name "*" -print0 | xargs -0 sed -i 's/from future.moves import/import/g' && \

@@ -11,11 +11,11 @@ FlexGet daemon with remote web interface.
 
 # Supported tags
 
-| Tags | Size / Layers |
-|-|-|
-| `3.1`, `3.1-alpine`, `3`, `3-alpine`, `latest` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:3.1.svg)](https://microbadger.com/images/emmercm/flexget:3.1 "Get your own image badge on microbadger.com") |
-| `2.21`, `2.21-alpine`, `2`, `2-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:2.21.svg)](https://microbadger.com/images/emmercm/flexget:2.21 "Get your own image badge on microbadger.com") |
-| `1.2`, `1.2-alpine`, `1`, `1-alpine` | [![](https://images.microbadger.com/badges/image/emmercm/flexget:1.2.svg)](https://microbadger.com/images/emmercm/flexget:2.21 "Get your own image badge on microbadger.com") |
+| Tags | Layers | Size |
+|-|-|-|
+| `3.1`, `3.1-alpine`, `3`, `3-alpine`, `latest` | ![](https://badgen.net/docker/layers/emmercm/flexget/3.1?icon=docker&label=layers) | ![](https://badgen.net/docker/size/emmercm/flexget/3.1?icon=docker&label=size) |
+| `2.21`, `2.21-alpine`, `2`, `2-alpine` | ![](https://badgen.net/docker/layers/emmercm/flexget/2.21?icon=docker&label=layers) | ![](https://badgen.net/docker/size/emmercm/flexget/2.21?icon=docker&label=size) |
+| `1.2`, `1.2-alpine`, `1`, `1-alpine` | ![](https://badgen.net/docker/layers/emmercm/flexget/1.2?icon=docker&label=layers) | ![](https://badgen.net/docker/size/emmercm/flexget/1.2?icon=docker&label=size) |
 
 # What is FlexGet?
 
