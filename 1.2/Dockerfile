@@ -11,7 +11,7 @@ ENV FLEXGET_PASSWORD=flexgetindocker
 SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 
 # Install FlexGet
-# hadolint ignore=DL3003,DL3018,SC2169
+# hadolint ignore=DL3003,DL3018,SC2169,SC3060
 RUN apk --update add --no-cache                              python2 py2-pip && \
     apk --update add --no-cache --virtual build-dependencies g++ gcc musl-dev python2-dev && \
     pip${PYTHON_VERSION/2/} install --upgrade pip && \
