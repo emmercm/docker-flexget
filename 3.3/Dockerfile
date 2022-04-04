@@ -1,6 +1,6 @@
-FROM emmercm/libtorrent:1.1@sha256:a4ca139a4d0ab37fb8fb5bf49c22c693ddec383c01138d1f346526443637cab5
+FROM emmercm/libtorrent:1.1@sha256:0dad7688a69f01cde3ba1d10b33c1b655caba7e46471477596caf52da9701d8e
 
-ARG FLEXGET_VERSION=3.3.0
+ARG FLEXGET_VERSION=3.3.8
 ENV FLEXGET_VERSION=$FLEXGET_VERSION
 
 ARG PYTHON_VERSION=3
@@ -12,7 +12,7 @@ SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 
 # Install FlexGet
 #   https://pillow.readthedocs.io/en/stable/installation.html
-# hadolint ignore=DL3003,DL3018,SC2169
+# hadolint ignore=DL3003,DL3018,SC2169,SC3060
 RUN apk --update add --no-cache                              g++ gcc python3 python3-dev && \
     apk --update add --no-cache --virtual build-dependencies jpeg-dev linux-headers musl-dev zlib-dev && \
     pip${PYTHON_VERSION/2/} install --upgrade pip && \
