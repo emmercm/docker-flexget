@@ -1,4 +1,4 @@
-FROM emmercm/libtorrent:2.0
+FROM emmercm/libtorrent:2.0@sha256:bdacdb71b63ea641e449963fbb35da9e2102de082a752cc5abe32869f35e64cf
 
 ARG FLEXGET_VERSION=3.6.1
 ENV FLEXGET_VERSION=$FLEXGET_VERSION
