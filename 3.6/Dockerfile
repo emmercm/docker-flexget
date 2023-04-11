@@ -13,7 +13,7 @@ SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 # Install FlexGet
 #   https://pillow.readthedocs.io/en/stable/installation.html
 # hadolint ignore=DL3003,DL3018,SC2169,SC3060
-RUN apk --update add --no-cache                              g++ gcc python3 python3-dev && \
+RUN apk --update add --no-cache                              g++ gcc py3-pip python3 python3-dev && \
     apk --update add --no-cache --virtual build-dependencies jpeg-dev linux-headers musl-dev zlib-dev && \
     pip${PYTHON_VERSION/2/} install --upgrade pip && \
     pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} && \
