@@ -13,19 +13,19 @@ SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 # Install FlexGet
 #   https://pillow.readthedocs.io/en/stable/installation.html
 # hadolint ignore=DL3003,DL3018,SC2169,SC3060
-RUN apk --update add --no-cache                              g++ gcc py3-pip python3 python3-dev && \
-    apk --update add --no-cache --virtual build-dependencies jpeg-dev linux-headers musl-dev zlib-dev && \
-    pip${PYTHON_VERSION/2/} install --upgrade pip && \
-    pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} && \
+RUN apk --update add --no-cache                              g++ gcc py3-pip python3 python3-dev
+RUN apk --update add --no-cache --virtual build-dependencies jpeg-dev linux-headers musl-dev zlib-dev
+RUN pip${PYTHON_VERSION/2/} install --upgrade pip
+RUN pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION}
     # Make directories, and symlink them for quality of life
-    mkdir ~/.flexget && \
-    ln -s ~/.flexget /config && \
+RUN mkdir ~/.flexget
+RUN ln -s ~/.flexget /config
     # Install container and entrypoint dependencies
-    apk --update add --no-cache dumb-init tzdata && \
+RUN apk --update add --no-cache dumb-init tzdata
     # Remove temp files
-    cd && \
-    apk del --purge build-dependencies && \
-    rm -rf /tmp/*
+RUN cd
+RUN apk del --purge build-dependencies
+RUN rm -rf /tmp/*
 
 COPY entrypoint.sh flexget.yml /
 
