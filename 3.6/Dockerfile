@@ -16,7 +16,7 @@ SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 RUN apk --update add --no-cache                              g++ gcc py3-pip python3 python3-dev
 RUN apk --update add --no-cache --virtual build-dependencies jpeg-dev linux-headers musl-dev zlib-dev
 RUN pip${PYTHON_VERSION/2/} install --upgrade pip
-RUN pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION}
+RUN pip${PYTHON_VERSION/2/} install --ignore-installed flexget~=${FLEXGET_VERSION}
     # Make directories, and symlink them for quality of life
 RUN mkdir ~/.flexget
 RUN ln -s ~/.flexget /config
