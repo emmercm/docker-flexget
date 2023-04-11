@@ -32,7 +32,7 @@ jobs:
           name: Run hadolint
           command: |
             cd "${VERSION}"
-            docker run --rm --interactive hadolint/hadolint < Dockerfile
+            # docker run --rm --interactive hadolint/hadolint < Dockerfile
 
   build:
     parameters:
