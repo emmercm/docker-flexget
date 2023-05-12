@@ -10,7 +10,7 @@ fi
 # Keep FlexGet updated
 echo "Checking for FlexGet updates ..."
 pip${PYTHON_VERSION/2/} install --upgrade --quiet pip
-pip${PYTHON_VERSION/2/} install --upgrade --quiet flexget~=${FLEXGET_VERSION}
+pip${PYTHON_VERSION/2/} install --upgrade --quiet --ignore-installed flexget~=${FLEXGET_VERSION}
 
 # Default FlexGet config
 if [[ ! -f /config/config.yml ]]; then
