@@ -13,7 +13,7 @@ FlexGet daemon with remote web interface.
 
 | Tags | Layers | Size |
 |-|-|-|
-| `3.8`, `3.8-alpine`, `3`, `3-alpine`, `latest` | ![](https://badgen.net/docker/layers/emmercm/flexget/3.8?icon=docker&label=layers) | ![](https://badgen.net/docker/size/emmercm/flexget/3.8?icon=docker&label=size) |
+| `3.9`, `3.9-alpine`, `3`, `3-alpine`, `latest` | ![](https://badgen.net/docker/layers/emmercm/flexget/3.9?icon=docker&label=layers) | ![](https://badgen.net/docker/size/emmercm/flexget/3.9?icon=docker&label=size) |
 | `2.21`, `2.21-alpine`, `2`, `2-alpine` | ![](https://badgen.net/docker/layers/emmercm/flexget/2.21?icon=docker&label=layers) | ![](https://badgen.net/docker/size/emmercm/flexget/2.21?icon=docker&label=size) |
 | `1.2`, `1.2-alpine`, `1`, `1-alpine` | ![](https://badgen.net/docker/layers/emmercm/flexget/1.2?icon=docker&label=layers) | ![](https://badgen.net/docker/size/emmercm/flexget/1.2?icon=docker&label=size) |
 
