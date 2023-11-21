@@ -15,7 +15,7 @@ SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 RUN apk --update add --no-cache                              python2 py2-pip && \
     apk --update add --no-cache --virtual build-dependencies g++ gcc musl-dev python2-dev && \
     pip${PYTHON_VERSION/2/} install --upgrade pip && \
-    pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} "Flask<0.11" "Flask-Cors<3.0" "Flask-Login<0.4" "guessit<3.0" "html5lib<0.99999999" "pytvmaze<2.0" "PyYAML<5.4" "rebulk<3.0.0" "SQLAlchemy<1.4.0" "Werkzeug<1.0.0" && \
+    pip${PYTHON_VERSION/2/} install flexget~=${FLEXGET_VERSION} "Flask<0.11" "Flask-Cors<3.0" "Flask-Login<0.4" "brotli<1.1" "guessit<3.0" "html5lib<0.99999999" "pytvmaze<2.0" "PyYAML<5.4" "rebulk<3.0.0" "SQLAlchemy<1.4.0" "Werkzeug<1.0.0" && \
     # Make directories, and symlink them for quality of life
     mkdir ~/.flexget && \
     ln -s ~/.flexget /config && \
