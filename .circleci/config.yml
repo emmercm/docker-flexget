@@ -146,7 +146,7 @@ workflows:
     jobs:
       - lint:
           name: "3-lint"
-          version: "3.9"
+          version: "3.10"
       - lint:
           name: "2-lint"
           version: "2.21"
@@ -163,8 +163,8 @@ workflows:
       # https://flexget.com/ChangeLog
       - build:
           name: "3-build-test"
-          version: "3.9.0"
-          tags: 3.9 3.9-alpine 3 3-alpine latest
+          version: "3.10.0"
+          tags: 3.10 3.10-alpine 3 3-alpine latest
           requires:
             - "lint"
       - build:
